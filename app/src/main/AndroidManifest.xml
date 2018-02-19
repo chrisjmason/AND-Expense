@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="digital.and.andexpenses">
-
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false" />
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -16,6 +17,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".addexpense.AndExpenseActivity"
+            android:label="@string/title_activity_add_expense"
+            android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
     </application>
 
