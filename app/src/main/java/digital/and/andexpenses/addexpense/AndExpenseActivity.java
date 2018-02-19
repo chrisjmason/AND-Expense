@@ -8,14 +8,20 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import javax.inject.Inject;
+
 import dagger.android.AndroidInjection;
 import digital.and.andexpenses.R;
+import digital.and.andexpenses.base.MvpContract;
 
 /**
  * Created by matashfaraz on 19/02/2018.
  */
 
-public class AndExpenseActivity extends AppCompatActivity{
+public class AndExpenseActivity extends AppCompatActivity implements MvpContract.View{
+
+    @Inject
+    AndExpensePresenter presenter;
 
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -24,6 +30,7 @@ public class AndExpenseActivity extends AppCompatActivity{
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expense);
+        presenter.checkPresenter();
         dispatchTakePictureIntent();
     }
 
