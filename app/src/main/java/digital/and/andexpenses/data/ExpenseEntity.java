@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class ExpenseEntity {
     @PrimaryKey(autoGenerate = true)
     public int id;
-    public BigDecimal total;
+    public Float total;
     public String date;
-    public Bitmap picture;
+    public String picture;
 }
