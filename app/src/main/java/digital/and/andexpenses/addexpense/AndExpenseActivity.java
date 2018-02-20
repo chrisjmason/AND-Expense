@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 
 import javax.inject.Inject;
@@ -29,6 +30,7 @@ public class AndExpenseActivity extends AppCompatActivity implements MvpContract
     @Inject
     AndExpensePresenter presenter;
 
+    File imageFile;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     @Override
@@ -43,8 +45,14 @@ public class AndExpenseActivity extends AppCompatActivity implements MvpContract
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File file = FileUtil.createImageFile(this);
-        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(this, "digital.and.fileProvider", file));
+
+        try{
+            imageFile = FileUtil.createImageFile(this);
+        }catch (IOException e){
+            Log.e("Exception creating file", e.toString());
+        }
+
+        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(this, "digital.and.fileProvider", imageFile));
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
