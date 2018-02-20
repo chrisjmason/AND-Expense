@@ -2,6 +2,7 @@ package digital.and.andexpenses.addexpense;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -38,20 +39,13 @@ public class AndExpenseActivity extends AppCompatActivity implements MvpContract
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expense);
-        presenter.checkPresenter();
         dispatchTakePictureIntent();
     }
 
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        try{
-            imageFile = FileUtil.createImageFile(this);
-        }catch (IOException e){
-            Log.e("Exception creating file", e.toString());
-        }
-
+        getImageFile();
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(this, "digital.and.fileProvider", imageFile));
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
@@ -61,8 +55,20 @@ public class AndExpenseActivity extends AppCompatActivity implements MvpContract
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            String imagePath = FileUtil.getImagePath(imageFile);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            Bitmap imageBitmap = BitmapFactory.decodeFile(imagePath, options);
+            presenter.storeExpense(imagePath, imageBitmap, this);
+        }
+    }
+
+    private void getImageFile(){
+        try{
+            imageFile = FileUtil.createImageFile(this);
+        }catch (IOException e){
+            e.printStackTrace();
+            Log.e("Exception creating file", e.toString());
         }
     }
 
