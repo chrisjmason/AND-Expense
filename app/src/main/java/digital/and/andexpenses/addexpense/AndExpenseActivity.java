@@ -2,17 +2,23 @@ package digital.and.andexpenses.addexpense;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import java.io.File;
+import java.net.URI;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 import digital.and.andexpenses.R;
 import digital.and.andexpenses.base.MvpContract;
+import digital.and.andexpenses.utils.FileUtil;
 
 /**
  * Created by matashfaraz on 19/02/2018.
@@ -37,8 +43,11 @@ public class AndExpenseActivity extends AppCompatActivity implements MvpContract
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File file = FileUtil.createImageFile(this);
+        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(this, "digital.and.fileProvider", file));
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+
         }
     }
 
