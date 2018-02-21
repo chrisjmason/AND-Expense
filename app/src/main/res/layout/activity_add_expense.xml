@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="digital.and.andexpenses.addexpense.AddExpenseActivity">
+    tools:context="digital.and.andexpenses.addexpense.AndExpenseActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -20,7 +20,9 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_add_expense" />
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_add_expense" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -29,5 +31,14 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/common_google_signin_btn_icon_dark"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="left|bottom">
+    </ImageView>
 
 </android.support.design.widget.CoordinatorLayout>

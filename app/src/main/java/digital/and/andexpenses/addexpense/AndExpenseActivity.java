@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +33,7 @@ public class AndExpenseActivity extends AppCompatActivity implements MvpContract
     AndExpensePresenter presenter;
 
     File imageFile;
+    ImageView imageView;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     @Override
@@ -60,6 +62,8 @@ public class AndExpenseActivity extends AppCompatActivity implements MvpContract
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             Bitmap imageBitmap = BitmapFactory.decodeFile(imagePath, options);
             presenter.storeExpense(imagePath, imageBitmap, this);
+            imageView = findViewById(R.id.imageView1);
+            imageView.setImageBitmap(imageBitmap);
         }
     }
 
