@@ -23,7 +23,14 @@ import digital.and.andexpenses.data.model.Receipt;
 public class ImageRecognition {
     TextBlock textBlock;
 
-    public Receipt processReceipt(Bitmap imageBitmap, Context context){
+    Context context;
+
+    @Inject
+    public ImageRecognition(Context context){
+        this.context = context;
+    }
+
+    public Receipt processReceipt(Bitmap imageBitmap){
 
          if(imageBitmap != null) {
              Log.d("Here I ", "am in image reco"+ imageBitmap.toString());

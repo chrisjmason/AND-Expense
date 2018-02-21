@@ -17,6 +17,6 @@ public interface AndExpenseContract {
     }
 
     interface Presenter{
-        void storeExpense(String imgPath, Bitmap image, Context context);
+        void storeExpense(String imgPath, Bitmap image);
     }
 }

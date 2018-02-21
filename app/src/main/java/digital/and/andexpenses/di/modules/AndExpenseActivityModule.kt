@@ -22,7 +22,8 @@ import digital.and.andexpenses.utils.ImageRecognition
  */
 
 @Module(subcomponents = arrayOf(AndExpenseActivitySubComponent::class))
-abstract class AndExpenseActivityModule {
+abstract class AndExpenseActivityModule() {
+
     @Binds
     @IntoMap
     @ActivityKey(AndExpenseActivity::class)
@@ -32,7 +33,7 @@ abstract class AndExpenseActivityModule {
     companion object {
         @Provides
         @JvmStatic
-        fun providePresenter(): AndExpensePresenter = AndExpensePresenter()
+        fun providePresenter(repository: AndExpenseRepository, imageRecognition: ImageRecognition): AndExpensePresenter = AndExpensePresenter(repository, imageRecognition);
 
         @Provides
         @JvmStatic
@@ -40,6 +41,6 @@ abstract class AndExpenseActivityModule {
 
         @Provides
         @JvmStatic
-        fun provideImageRecognition(): ImageRecognition = ImageRecognition()
+        fun provideImageRecognition(context: Context): ImageRecognition = ImageRecognition(context)
     }
 }

@@ -6,7 +6,7 @@ import android.arch.persistence.room.RoomDatabase
 /**
  * Created by cmason on 20/02/2018.
  */
-@Database(entities = arrayOf(ExpenseEntity::class), version = 1)
+@Database(entities = arrayOf(ExpenseEntity::class), version = 1, exportSchema = false)
 abstract class ExpenseDatabase : RoomDatabase() {
 
     abstract fun feedbackDao(): ExpenseDAO

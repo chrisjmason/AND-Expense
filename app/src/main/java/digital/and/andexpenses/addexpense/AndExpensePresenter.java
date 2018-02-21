@@ -17,17 +17,18 @@ import digital.and.andexpenses.utils.ImageRecognition;
 
 public class AndExpensePresenter extends BasePresenter<AndExpenseActivity> implements AndExpenseContract.Presenter {
 
-    @Inject
-    AndExpenseRepository repository;
-    @Inject
-    ImageRecognition imageRecognition;
+    private AndExpenseRepository repository;
+    private ImageRecognition imageRecognition;
+
+    public AndExpensePresenter(AndExpenseRepository repository, ImageRecognition imageRecognition){
+        this.repository = repository;
+        this.imageRecognition = imageRecognition;
+    }
 
     @Override
-    public void storeExpense(String imgPath, Bitmap image, Context context) {
+    public void storeExpense(String imgPath, Bitmap image) {
         Log.d("Here is the ", "image"+image.toString());
-
-        ImageRecognition imageRecognition = new ImageRecognition();
-        imageRecognition.processReceipt(image, context);
+        imageRecognition.processReceipt(image);
 
     }
 }
