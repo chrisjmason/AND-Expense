@@ -10,10 +10,19 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
+import org.intellij.lang.annotations.RegExp;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.inject.Inject;
 
 import digital.and.andexpenses.R;
 import digital.and.andexpenses.data.model.Receipt;
+import kotlin.text.Regex;
 
 import static com.google.android.gms.vision.Frame.ROTATION_90;
 
@@ -22,9 +31,11 @@ import static com.google.android.gms.vision.Frame.ROTATION_90;
  */
 
 public class ImageRecognition {
-    TextBlock textBlock;
     Context context;
+    ArrayList<Double> listOfPrices = new ArrayList<>();
+    Double price = 0.0;
 
+    private final String curRegex = "[0-9]+[.][0-9]{2}";
     @Inject
     public ImageRecognition(Context context){
         this.context = context;
@@ -33,7 +44,7 @@ public class ImageRecognition {
     public Receipt processReceipt(Bitmap imageBitmap){
 
         if(imageBitmap != null) {
-            Log.d("Here I ", "am in image reco"+ imageBitmap.toString());
+
             TextRecognizer textRecognizer = new TextRecognizer.Builder(context).build();
 
             if (!textRecognizer.isOperational()) {
@@ -43,18 +54,42 @@ public class ImageRecognition {
                 SparseArray<TextBlock> text = textRecognizer.detect(imageFrame);
 
                 String detectedText= "";
+                String total="";
+
                 for (int i = 0; i < text.size(); i++) {
                     TextBlock textBlock = text.valueAt(i);
+
                     if (textBlock != null && textBlock.getValue() != null) {
                         detectedText += textBlock.getValue();
+                        total = textBlock.getValue();
+                        addPriceCandidate(total);
+
                     }
                 }
+                price = getReceiptPrice(listOfPrices);
+                Log.d("Here is the ", "price "+ price);
 
-                Log.d("Hello", "Hello " + detectedText);
             }
         }
 //         return new Receipt(textBlock.getValue(), textBlock.getValue());
         return null;
+    }
+
+    public void addPriceCandidate(String text) {
+
+        Matcher matcher = Pattern.compile(curRegex)
+                .matcher(text);
+
+        while(matcher.find()) {
+            listOfPrices.add(Double.valueOf(matcher.group()));
+        }
+
+    }
+
+    public Double getReceiptPrice(ArrayList<Double> prices){
+
+        return Collections.max(listOfPrices);
+
     }
 }
 
