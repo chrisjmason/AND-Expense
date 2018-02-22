@@ -6,15 +6,18 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.SparseArray;
-import android.widget.Toast;
 
 import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
 import digital.and.andexpenses.data.model.Receipt;
+import io.reactivex.Single;
 
 /**
  * Created by matashfaraz on 20/02/2018.
@@ -58,13 +61,14 @@ public class ImageRecognition {
              for (int i = 0; i < textBlocks.size(); i++) {
                  textBlock = textBlocks.get(textBlocks.keyAt(i));
 
-                 Log.i("Text block value", textBlock.getValue());
-                 // Do something with value
+                 List<? extends Text> textBlockList = textBlock.getComponents();
+
+                 for(Text currentText: textBlockList){
+                     Log.i("Text block value", currentText.getValue());
+                 }
              }
          }
          Log.d("Hello", "Hi" + textBlock);
-
-//         return new Receipt(textBlock.getValue(), textBlock.getValue());
-        return null;
+         return null;
     }
 }

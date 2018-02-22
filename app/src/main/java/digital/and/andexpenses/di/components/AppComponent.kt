@@ -1,5 +1,7 @@
 package digital.and.andexpenses.di.components
 
+import android.app.Application
+import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import digital.and.andexpenses.MyApplication
@@ -20,4 +22,11 @@ import javax.inject.Singleton
 @Singleton
 interface AppComponent{
     fun inject(app: MyApplication)
+
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        fun application(application: MyApplication): Builder
+        fun build(): AppComponent
+    }
 }

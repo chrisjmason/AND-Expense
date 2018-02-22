@@ -3,6 +3,7 @@ package digital.and.andexpenses.di.modules
 import android.app.Application
 import android.content.Context
 import dagger.Binds
+import dagger.BindsInstance
 import dagger.Module
 import dagger.Provides
 import digital.and.andexpenses.MyApplication
@@ -13,14 +14,9 @@ import javax.inject.Singleton
  */
 
 @Module
-abstract class AppModule {
-    @Binds
-    @Singleton
-    abstract fun bindApplication(application: MyApplication): Application
+class AppModule {
 
-    companion object {
-        @Provides
-        @Singleton
-        fun provideContext(application: MyApplication): Context = application.applicationContext
-    }
+    @Provides
+    @Singleton
+    fun bindContext(application: MyApplication): Context = application.baseContext
 }
