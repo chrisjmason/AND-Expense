@@ -11,6 +11,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +28,7 @@ import digital.and.andexpenses.utils.FileUtil;
  * Created by matashfaraz on 19/02/2018.
  */
 
-public class AndExpenseActivity extends AppCompatActivity implements MvpContract.View{
+public class AndExpenseActivity extends AppCompatActivity implements AndExpenseContract.View{
 
     @Inject
     AndExpensePresenter presenter;
@@ -39,19 +40,10 @@ public class AndExpenseActivity extends AppCompatActivity implements MvpContract
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         AndroidInjection.inject(this);
+        presenter.onBind(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expense);
         dispatchTakePictureIntent();
-    }
-
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        getImageFile();
-        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(this, "digital.and.fileProvider", imageFile));
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
     }
 
     @Override
@@ -61,7 +53,29 @@ public class AndExpenseActivity extends AppCompatActivity implements MvpContract
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             Bitmap imageBitmap = BitmapFactory.decodeFile(imagePath, options);
+            Log.d("activity", "On activity result Has been called");
             presenter.storeExpense(imagePath, imageBitmap);
+        }
+    }
+
+    @Override
+    public void expenseStoredSuccessfully() {
+        Toast.makeText(this, "Successfully added", Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void expenseStorageFailure() {
+        Toast.makeText(this, "Error adding", Toast.LENGTH_LONG).show();
+
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        getImageFile();
+        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(this, "digital.and.fileProvider", imageFile));
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 

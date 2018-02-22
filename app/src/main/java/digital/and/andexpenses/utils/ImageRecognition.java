@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 import digital.and.andexpenses.R;
 import digital.and.andexpenses.data.model.Receipt;
+import io.reactivex.Single;
 
 import static com.google.android.gms.vision.Frame.ROTATION_90;
 
@@ -30,7 +31,7 @@ public class ImageRecognition {
         this.context = context;
     }
 
-    public Receipt processReceipt(Bitmap imageBitmap){
+    public Single<Receipt> processReceipt(Bitmap imageBitmap){
 
         if(imageBitmap != null) {
             Log.d("Here I ", "am in image reco"+ imageBitmap.toString());
@@ -39,22 +40,21 @@ public class ImageRecognition {
             if (!textRecognizer.isOperational()) {
                 Log.e("Error", "Detector dependencies are not available");
             } else {
-                Frame imageFrame = new Frame.Builder().setBitmap(imageBitmap).setRotation(ROTATION_90).build();
+                Bitmap textBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.print_payment_receipt);
+                Frame imageFrame = new Frame.Builder().setBitmap(textBitmap).setRotation(ROTATION_90).build();
                 SparseArray<TextBlock> text = textRecognizer.detect(imageFrame);
 
                 String detectedText= "";
                 for (int i = 0; i < text.size(); i++) {
                     TextBlock textBlock = text.valueAt(i);
                     if (textBlock != null && textBlock.getValue() != null) {
-                        detectedText += textBlock.getValue();
+//                        detectedText += ", " + textBlock.getValue();
+                        Log.d("Hello ", textBlock.getValue());
                     }
                 }
-
-                Log.d("Hello", "Hello " + detectedText);
             }
         }
-//         return new Receipt(textBlock.getValue(), textBlock.getValue());
-        return null;
+        return Single.just(new Receipt("19/05/1993", "33.75"));
     }
 }
 

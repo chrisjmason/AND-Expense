@@ -10,7 +10,7 @@ import io.reactivex.Single;
  */
 
 public interface AndExpenseRepository {
-    Single<Void> addExpense(ExpenseEntity expenseEntity);
+    void addExpense(ExpenseEntity expenseEntity);
 
     Single<List<ExpenseEntity>> getExpenses();
 }

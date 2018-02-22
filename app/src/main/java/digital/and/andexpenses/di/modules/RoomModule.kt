@@ -12,7 +12,7 @@ import javax.inject.Singleton
  * Created by cmason on 20/02/2018.
  */
 @Module
-abstract class RoomModule(private val application: Application){
+open class RoomModule(private val application: Application){
 
     @Singleton
     @Provides
@@ -20,4 +20,8 @@ abstract class RoomModule(private val application: Application){
             ExpenseDatabase::class.java,
             "ExpenseDb")
             .build()
+
+    @Singleton
+    @Provides
+    fun provideDAO(expenseDatabase: ExpenseDatabase): ExpenseDAO = expenseDatabase.feedbackDao()
 }

@@ -7,6 +7,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import digital.and.andexpenses.di.components.DaggerAppComponent
+import digital.and.andexpenses.di.modules.RoomModule
 import javax.inject.Inject
 
 /**
@@ -22,6 +23,7 @@ class MyApplication: @Inject Application(), HasActivityInjector{
         DaggerAppComponent
                 .builder()
                 .application(this)
+                .roomModule(RoomModule(this))
                 .build()
                 .inject(this)
     }

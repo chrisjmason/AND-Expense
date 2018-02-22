@@ -16,5 +16,11 @@ public class ExpenseEntity {
     public int id;
     public Float total;
     public String date;
-    public String picture;
+    public String pictureLocation;
+
+    public ExpenseEntity(Float total, String date, String pictureLocation){
+        this.total = total;
+        this.date = date;
+        this.pictureLocation = pictureLocation;
+    }
 }

@@ -10,6 +10,7 @@ import dagger.android.AndroidInjector
 import dagger.multibindings.IntoMap
 import digital.and.andexpenses.addexpense.AndExpenseActivity
 import digital.and.andexpenses.addexpense.AndExpensePresenter
+import digital.and.andexpenses.data.ExpenseDAO
 import digital.and.andexpenses.data.repo.AndExpenseRepository
 import digital.and.andexpenses.data.repo.AndExpenseRepositoryImpl
 import digital.and.andexpenses.di.components.AndExpenseActivitySubComponent
@@ -37,7 +38,7 @@ abstract class AndExpenseActivityModule() {
 
         @Provides
         @JvmStatic
-        fun provideRepository(): AndExpenseRepository = AndExpenseRepositoryImpl()
+        fun provideRepository(expenseDAO: ExpenseDAO): AndExpenseRepository = AndExpenseRepositoryImpl(expenseDAO)
 
         @Provides
         @JvmStatic
