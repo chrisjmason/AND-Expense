@@ -7,19 +7,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.util.SparseArray;
-import android.widget.Toast;
 
 import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
 
 import javax.inject.Inject;
 
 import digital.and.andexpenses.R;
 import digital.and.andexpenses.data.model.Receipt;
+import io.reactivex.Single;
 
 /**
  * Created by matashfaraz on 20/02/2018.
@@ -27,9 +25,15 @@ import digital.and.andexpenses.data.model.Receipt;
 
 public class ImageRecognition {
     TextBlock textBlock;
+    Context context;
+
+    @Inject
+    public ImageRecognition(Context context){
+        this.context = context;
+    }
 
 
-    public Receipt processReceipt(Bitmap imageBitmap, Context context){
+    public Receipt processReceipt(Bitmap imageBitmap){
 
         if(imageBitmap != null) {
             Log.d("Here I ", "am in image reco"+ imageBitmap.toString());
@@ -37,9 +41,7 @@ public class ImageRecognition {
 
             if (!textRecognizer.isOperational()) {
                 Log.e("Error", "Detector dependencies are not available");
-            }
-
-            else {
+            } else {
                // Bitmap textBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.receipt);
                 Frame imageFrame = new Frame.Builder().setBitmap(imageBitmap).build();
                 SparseArray<TextBlock> text = textRecognizer.detect(imageFrame);

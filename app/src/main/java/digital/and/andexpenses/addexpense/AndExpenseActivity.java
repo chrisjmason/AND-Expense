@@ -61,9 +61,7 @@ public class AndExpenseActivity extends AppCompatActivity implements MvpContract
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             Bitmap imageBitmap = BitmapFactory.decodeFile(imagePath, options);
-            presenter.storeExpense(imagePath, imageBitmap, this);
-            imageView = findViewById(R.id.imageView1);
-            imageView.setImageBitmap(imageBitmap);
+            presenter.storeExpense(imagePath, imageBitmap);
         }
     }
 
