@@ -57,7 +57,6 @@ public class ImageRecognition {
                 Log.d("Hello", "Hello " + detectedText);
             }
         }
-
 //         return new Receipt(textBlock.getValue(), textBlock.getValue());
         return null;
     }

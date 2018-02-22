@@ -33,9 +33,13 @@ public class AndExpensePresenter extends BasePresenter<AndExpenseActivity> imple
 
     @Override
     public void storeExpense(String imgPath, Bitmap image) {
-        Single.just(imageRecognition.processReceipt(image))
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(receipt -> repository.addExpense(receipt));
+
+//  Will need this for later
+//        Single.just(imageRecognition.processReceipt(image))
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(receipt -> repository.addExpense(null));
+
+        imageRecognition.processReceipt(image);
     }
 }
