@@ -36,12 +36,8 @@ public class AndExpensePresenter extends BasePresenter<AndExpenseContract.View> 
     @Override
     public void storeExpense(String imgPath, Bitmap image) {
         imageRecognition.processReceipt(image)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(receipt -> Completable.fromAction(() -> repository.addExpense(new ExpenseEntity(receipt.getPrice(), receipt.getDate(), imgPath))))
-                .subscribe(t ->{
-                            getView().expenseStoredSuccessfully();
-                        },
+                .map(receipt -> repository.addExpense(new ExpenseEntity(receipt.getPrice(), receipt.getDate(), imgPath)))
+                .subscribe(t -> getView().expenseStoredSuccessfully(),
                         throwable -> {
                             getView().expenseStorageFailure();
                             throwable.printStackTrace();

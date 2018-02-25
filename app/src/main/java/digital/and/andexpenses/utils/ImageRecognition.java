@@ -15,6 +15,8 @@ import javax.inject.Inject;
 import digital.and.andexpenses.R;
 import digital.and.andexpenses.data.model.Receipt;
 import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.google.android.gms.vision.Frame.ROTATION_90;
 
@@ -54,7 +56,9 @@ public class ImageRecognition {
                 }
             }
         }
-        return Single.just(new Receipt("19/05/1993", "33.75"));
+        return Single.just(new Receipt("19/05/1993", "33.75"))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }
 
