@@ -22,6 +22,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
+import java.io.IOException
 
 /**
  * Created by cmason on 22/02/2018.
@@ -40,6 +41,7 @@ class AndExpensePresenterTest{
     val fakeReceipt = Receipt("12/05/2015", "4.20")
     val fakeExpenseEntity = ExpenseEntity(fakeReceipt.price, fakeReceipt.date, "test")
     val fakeImageRecSuccessObs = Single.just(fakeReceipt)
+    val fakeImageRecFailureObs: Single<Receipt> = Single.error(IOException())
 
     @Before
     fun setUp(){
@@ -50,8 +52,19 @@ class AndExpensePresenterTest{
     @Test
     fun storeExpense_Success() {
         whenever(imageRec.processReceipt(fakeBitmap)).thenReturn(fakeImageRecSuccessObs)
+
         andExpensePresenter.storeExpense("test", fakeBitmap)
+
         verify(imageRec).processReceipt(fakeBitmap)
         verify(repository).addExpense(any())
+        verify(andExpenseView).expenseStoredSuccessfully()
+    }
+
+    @Test
+    fun storeExpense_Failure(){
+        whenever(imageRec.processReceipt(fakeBitmap)).thenReturn(fakeImageRecFailureObs)
+        andExpensePresenter.storeExpense("test", fakeBitmap)
+        verify(imageRec).processReceipt(fakeBitmap)
+        verify(andExpenseView).expenseStorageFailure()
     }
 }

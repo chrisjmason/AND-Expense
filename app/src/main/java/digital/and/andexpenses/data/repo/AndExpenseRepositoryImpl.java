@@ -30,8 +30,8 @@ public class AndExpenseRepositoryImpl implements AndExpenseRepository {
     }
 
     @Override
-    public Completable addExpense(ExpenseEntity expenseEntity) {
-        return Completable.fromAction(() -> expenseDAO.insertExpense(expenseEntity));
+    public void addExpense(ExpenseEntity expenseEntity) {
+        expenseDAO.insertExpense(expenseEntity);
     }
 
     @Override
