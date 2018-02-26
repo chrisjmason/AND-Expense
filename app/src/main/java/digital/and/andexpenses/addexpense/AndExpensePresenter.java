@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import java.text.ParseException;
+
 import javax.inject.Inject;
 
 import digital.and.andexpenses.base.BasePresenter;
@@ -40,6 +42,10 @@ public class AndExpensePresenter extends BasePresenter<AndExpenseActivity> imple
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribe(receipt -> repository.addExpense(null));
 
-        imageRecognition.processReceipt(image);
+        try {
+            imageRecognition.processReceipt(image);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -12,9 +12,12 @@ import com.google.android.gms.vision.text.TextRecognizer;
 
 import org.intellij.lang.annotations.RegExp;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,6 +28,7 @@ import digital.and.andexpenses.data.model.Receipt;
 import kotlin.text.Regex;
 
 import static com.google.android.gms.vision.Frame.ROTATION_90;
+import static java.lang.String.valueOf;
 
 /**
  * Created by matashfaraz on 20/02/2018.
@@ -34,14 +38,20 @@ public class ImageRecognition {
     Context context;
     ArrayList<Double> listOfPrices = new ArrayList<>();
     Double price = 0.0;
+    Date date;
+    String receiptDate = "";
+    boolean dateIsFound = false;
+    boolean priceIsFound = false;
 
-    private final String curRegex = "[0-9]+[.][0-9]{2}";
+
+    private final String priceRegex = "[0-9]+[.][0-9]{2}";
+    private final String dateRegex = "(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\\/)(0?[13578]|10|12)(-|\\/)((19)([2-9])(\\d{1})|(20)([01])(\\d{1})|([8901])(\\d{1}))|(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\\/)(0?[2469]|11)(-|\\/)((19)([2-9])(\\d{1})|(20)([01])(\\d{1})|([8901])(\\d{1}))";
     @Inject
     public ImageRecognition(Context context){
         this.context = context;
     }
 
-    public Receipt processReceipt(Bitmap imageBitmap){
+    public Receipt processReceipt(Bitmap imageBitmap) throws ParseException {
 
         if(imageBitmap != null) {
 
@@ -62,8 +72,11 @@ public class ImageRecognition {
                     if (textBlock != null && textBlock.getValue() != null) {
                         detectedText += textBlock.getValue();
                         total = textBlock.getValue();
+//                        Log.d("This is ", "Total "+total);
                         addPriceCandidate(total);
-
+                        if (!dateIsFound) {
+                            addDateCandidate(total);
+                        }
                     }
                 }
                 price = getReceiptPrice(listOfPrices);
@@ -77,7 +90,7 @@ public class ImageRecognition {
 
     public void addPriceCandidate(String text) {
 
-        Matcher matcher = Pattern.compile(curRegex)
+        Matcher matcher = Pattern.compile(priceRegex)
                 .matcher(text);
 
         while(matcher.find()) {
@@ -87,9 +100,35 @@ public class ImageRecognition {
     }
 
     public Double getReceiptPrice(ArrayList<Double> prices){
-
+        priceIsFound = true;
         return Collections.max(listOfPrices);
 
     }
+
+    public void addDateCandidate(String text) throws ParseException {
+
+        Matcher matcher = Pattern.compile(dateRegex)
+                .matcher(text);
+
+        while(matcher.find()) {
+            receiptDate = valueOf(matcher.group());
+            dateIsFound = true;
+            break;
+        }
+
+//        if (dateIsFound){
+//            SimpleDateFormat formatter = new SimpleDateFormat("dd/MMM/yyyy");
+//
+//            date = formatter.parse(String.valueOf(receiptDate));
+//            Log.d("This is ", "the converted date "+ date);
+//
+//        }
+        Log.d("This is ", "the date "+ receiptDate);
+
+    }
+
+
+
+
 }
 
