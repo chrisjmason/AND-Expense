@@ -23,7 +23,7 @@ import digital.and.andexpenses.utils.ImageRecognition
  */
 
 @Module(subcomponents = arrayOf(AndExpenseActivitySubComponent::class))
-abstract class AndExpenseActivityModule() {
+abstract class AndExpenseActivityModule {
 
     @Binds
     @IntoMap

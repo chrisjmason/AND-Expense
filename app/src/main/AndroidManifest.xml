@@ -23,12 +23,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".addexpense.AndExpenseActivity"
             android:label="@string/title_activity_add_expense"
             android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
+
+        <activity android:name=".viewexpenses.ViewExpenseActivity"
+            android:label="ViewExpenseActivity">
+        </activity>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="digital.and.fileProvider"
@@ -41,6 +46,8 @@
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="ocr" />
+
+
     </application>
 
 

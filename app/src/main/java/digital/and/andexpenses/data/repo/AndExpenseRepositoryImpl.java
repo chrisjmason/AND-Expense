@@ -36,6 +36,6 @@ public class AndExpenseRepositoryImpl implements AndExpenseRepository {
 
     @Override
     public Single<List<ExpenseEntity>> getExpenses() {
-        return null;
+        return expenseDAO.getExpenses();
     }
 }
