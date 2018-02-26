@@ -39,7 +39,6 @@ class AndExpensePresenterTest{
     val fakeBitmap: Bitmap = mock()
 
     val fakeReceipt = Receipt("12/05/2015", "4.20")
-    val fakeExpenseEntity = ExpenseEntity(fakeReceipt.price, fakeReceipt.date, "test")
     val fakeImageRecSuccessObs = Single.just(fakeReceipt)
     val fakeImageRecFailureObs: Single<Receipt> = Single.error(IOException())
 

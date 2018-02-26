@@ -43,13 +43,5 @@ public class AndExpensePresenter extends BasePresenter<AndExpenseContract.View> 
                     getView().expenseStorageFailure();
                     throwable.printStackTrace();
                 });
-
-//        imageRecognition.processReceipt(image)
-//                .map(receipt -> repository.addExpense(new ExpenseEntity(receipt.getPrice(), receipt.getDate(), imgPath)))
-//                .subscribe(t -> getView().expenseStoredSuccessfully(),
-//                        throwable -> {
-//                            getView().expenseStorageFailure();
-//                            throwable.printStackTrace();
-//                        });
     }
 }
