@@ -1,13 +1,27 @@
 package digital.and.andexpenses.viewexpenses
 
+import android.util.Log
 import digital.and.andexpenses.base.BasePresenter
+import digital.and.andexpenses.data.ExpenseEntity
+import digital.and.andexpenses.data.repo.AndExpenseRepository
+import kotlin.concurrent.timerTask
 
 /**
  * Created by cmason on 26/02/2018.
  */
-class ViewExpensePresenter: BasePresenter<ViewExpenseContract.View>(), ViewExpenseContract.Presenter {
+class ViewExpensePresenter(repository: AndExpenseRepository): BasePresenter<ViewExpenseContract.View>(), ViewExpenseContract.Presenter {
+    val repository:AndExpenseRepository
+
+    init {
+       this.repository = repository
+    }
 
     override fun getExpenses() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        repository.expenses
+                .subscribe({ t:MutableList<ExpenseEntity> ->
+                    view.showExpenses(t)
+                    Log.d("list in presenter", t.toString())
+                },
+                        {e -> e.printStackTrace()})
     }
 }

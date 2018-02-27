@@ -6,22 +6,28 @@ import dagger.Module
 import dagger.Provides
 import digital.and.andexpenses.data.ExpenseDAO
 import digital.and.andexpenses.data.ExpenseDatabase
+import digital.and.andexpenses.data.repo.AndExpenseRepository
+import digital.and.andexpenses.data.repo.AndExpenseRepositoryImpl
 import javax.inject.Singleton
 
 /**
  * Created by cmason on 20/02/2018.
  */
 @Module
-open class RoomModule(private val application: Application){
+open class DataModule(private val application: Application){
 
     @Singleton
     @Provides
     fun provideExpenseDatabase(): ExpenseDatabase = Room.databaseBuilder(application,
             ExpenseDatabase::class.java,
-            "ExpenseDb")
+            "Expenses")
             .build()
 
     @Singleton
     @Provides
-    fun provideDAO(expenseDatabase: ExpenseDatabase): ExpenseDAO = expenseDatabase.feedbackDao()
+    fun provideDAO(expenseDatabase: ExpenseDatabase): ExpenseDAO = expenseDatabase.expenseDao()
+
+    @Singleton
+    @Provides
+    fun provideRepository(expenseDAO: ExpenseDAO): AndExpenseRepository = AndExpenseRepositoryImpl(expenseDAO)
 }

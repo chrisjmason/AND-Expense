@@ -38,10 +38,6 @@ abstract class AndExpenseActivityModule {
 
         @Provides
         @JvmStatic
-        fun provideRepository(expenseDAO: ExpenseDAO): AndExpenseRepository = AndExpenseRepositoryImpl(expenseDAO)
-
-        @Provides
-        @JvmStatic
         fun provideImageRecognition(context: Context): ImageRecognition = ImageRecognition(context)
     }
 }

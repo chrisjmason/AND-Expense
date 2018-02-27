@@ -4,8 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import java.text.ParseException;
+
 import javax.inject.Inject;
 
+import dagger.android.AndroidInjection;
 import digital.and.andexpenses.base.BasePresenter;
 import digital.and.andexpenses.base.MvpContract;
 import digital.and.andexpenses.data.ExpenseEntity;
@@ -36,12 +39,11 @@ public class AndExpensePresenter extends BasePresenter<AndExpenseContract.View> 
     @Override
     public void storeExpense(String imgPath, Bitmap image) {
         imageRecognition.processReceipt(image)
-                .subscribe(receipt -> {
-                    repository.addExpense(new ExpenseEntity(receipt.getPrice(), receipt.getDate(), imgPath));
-                    getView().expenseStoredSuccessfully();
-                }, throwable -> {
-                    getView().expenseStorageFailure();
-                    throwable.printStackTrace();
-                });
+                .flatMapCompletable(receipt -> repository.addExpense(new ExpenseEntity(receipt.getPrice(), receipt.getDate(), imgPath)))
+                .subscribe(() -> getView().expenseStoredSuccessfully(),
+                        throwable -> {
+                            throwable.printStackTrace();
+                            getView().expenseStorageFailure();
+                        });
     }
 }

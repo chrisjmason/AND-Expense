@@ -11,7 +11,7 @@ import io.reactivex.Single;
  */
 
 public interface AndExpenseRepository {
-    void addExpense(ExpenseEntity expenseEntity);
+    Completable addExpense(ExpenseEntity expenseEntity);
 
     Single<List<ExpenseEntity>> getExpenses();
 }

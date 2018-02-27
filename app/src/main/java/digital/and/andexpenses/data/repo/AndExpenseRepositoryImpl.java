@@ -30,12 +30,16 @@ public class AndExpenseRepositoryImpl implements AndExpenseRepository {
     }
 
     @Override
-    public void addExpense(ExpenseEntity expenseEntity) {
-        expenseDAO.insertExpense(expenseEntity);
+    public Completable addExpense(ExpenseEntity expenseEntity) {
+        return Completable.fromAction(() -> expenseDAO.insertExpense(expenseEntity))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Single<List<ExpenseEntity>> getExpenses() {
-        return expenseDAO.getExpenses();
+        return expenseDAO.getExpenses()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }
