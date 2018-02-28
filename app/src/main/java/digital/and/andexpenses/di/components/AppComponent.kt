@@ -1,14 +1,10 @@
 package digital.and.andexpenses.di.components
 
-import android.app.Application
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import digital.and.andexpenses.MyApplication
-import digital.and.andexpenses.addexpense.AndExpenseActivity
-import digital.and.andexpenses.di.modules.AndExpenseActivityModule
-import digital.and.andexpenses.di.modules.AppModule
-import digital.and.andexpenses.di.modules.HomeActivityModule
+import digital.and.andexpenses.di.modules.*
 import javax.inject.Singleton
 
 /**
@@ -18,7 +14,10 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(AppModule::class,
         AndroidInjectionModule::class,
         HomeActivityModule::class,
-        AndExpenseActivityModule::class))
+        AndExpenseActivityModule::class,
+        DataModule::class,
+        ViewExpenseActivityModule::class,
+        SchedulerModule::class))
 @Singleton
 interface AppComponent{
     fun inject(app: MyApplication)
@@ -27,6 +26,7 @@ interface AppComponent{
     interface Builder {
         @BindsInstance
         fun application(application: MyApplication): Builder
+        fun roomModule(roomModule: DataModule): Builder
         fun build(): AppComponent
     }
 }

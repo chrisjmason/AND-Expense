@@ -25,6 +25,9 @@ import javax.inject.Inject;
 
 import digital.and.andexpenses.R;
 import digital.and.andexpenses.data.model.Receipt;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import kotlin.text.Regex;
 
 import static com.google.android.gms.vision.Frame.ROTATION_90;
@@ -46,12 +49,13 @@ public class ImageRecognition {
 
     private final String priceRegex = "[0-9]+[.][0-9]{2}";
     private final String dateRegex = "(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\\/)(0?[13578]|10|12)(-|\\/)((19)([2-9])(\\d{1})|(20)([01])(\\d{1})|([8901])(\\d{1}))|(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\\/)(0?[2469]|11)(-|\\/)((19)([2-9])(\\d{1})|(20)([01])(\\d{1})|([8901])(\\d{1}))";
+
     @Inject
     public ImageRecognition(Context context){
         this.context = context;
     }
 
-    public Receipt processReceipt(Bitmap imageBitmap) throws ParseException {
+    public Single<Receipt> processReceipt(Bitmap imageBitmap) {
 
         if(imageBitmap != null) {
 
@@ -84,8 +88,10 @@ public class ImageRecognition {
 
             }
         }
-//         return new Receipt(textBlock.getValue(), textBlock.getValue());
-        return null;
+
+         return Single.just(new Receipt(receiptDate, price))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public void addPriceCandidate(String text) {
@@ -105,7 +111,7 @@ public class ImageRecognition {
 
     }
 
-    public void addDateCandidate(String text) throws ParseException {
+    public void addDateCandidate(String text) {
 
         Matcher matcher = Pattern.compile(dateRegex)
                 .matcher(text);
@@ -126,9 +132,4 @@ public class ImageRecognition {
         Log.d("This is ", "the date "+ receiptDate);
 
     }
-
-
-
-
 }
-

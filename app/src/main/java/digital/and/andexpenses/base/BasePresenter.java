@@ -22,5 +22,4 @@ public class BasePresenter<T extends MvpContract.View> implements MvpContract.Pr
         return view;
     }
 
-
 }

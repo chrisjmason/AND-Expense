@@ -10,6 +10,7 @@ import dagger.android.AndroidInjector
 import dagger.multibindings.IntoMap
 import digital.and.andexpenses.addexpense.AndExpenseActivity
 import digital.and.andexpenses.addexpense.AndExpensePresenter
+import digital.and.andexpenses.data.ExpenseDAO
 import digital.and.andexpenses.data.repo.AndExpenseRepository
 import digital.and.andexpenses.data.repo.AndExpenseRepositoryImpl
 import digital.and.andexpenses.di.components.AndExpenseActivitySubComponent
@@ -22,7 +23,7 @@ import digital.and.andexpenses.utils.ImageRecognition
  */
 
 @Module(subcomponents = arrayOf(AndExpenseActivitySubComponent::class))
-abstract class AndExpenseActivityModule() {
+abstract class AndExpenseActivityModule {
 
     @Binds
     @IntoMap
@@ -34,10 +35,6 @@ abstract class AndExpenseActivityModule() {
         @Provides
         @JvmStatic
         fun providePresenter(repository: AndExpenseRepository, imageRecognition: ImageRecognition): AndExpensePresenter = AndExpensePresenter(repository, imageRecognition);
-
-        @Provides
-        @JvmStatic
-        fun provideRepository(): AndExpenseRepository = AndExpenseRepositoryImpl()
 
         @Provides
         @JvmStatic

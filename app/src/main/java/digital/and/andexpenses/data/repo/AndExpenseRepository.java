@@ -3,6 +3,7 @@ package digital.and.andexpenses.data.repo;
 import java.util.List;
 
 import digital.and.andexpenses.data.ExpenseEntity;
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 /**
@@ -10,7 +11,7 @@ import io.reactivex.Single;
  */
 
 public interface AndExpenseRepository {
-    Single<Void> addExpense(ExpenseEntity expenseEntity);
+    Completable addExpense(ExpenseEntity expenseEntity);
 
     Single<List<ExpenseEntity>> getExpenses();
 }

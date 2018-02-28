@@ -2,11 +2,11 @@ package digital.and.andexpenses
 
 import android.app.Activity
 import android.app.Application
-import dagger.Provides
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import digital.and.andexpenses.di.components.DaggerAppComponent
+import digital.and.andexpenses.di.modules.DataModule
 import javax.inject.Inject
 
 /**
@@ -22,6 +22,7 @@ class MyApplication: @Inject Application(), HasActivityInjector{
         DaggerAppComponent
                 .builder()
                 .application(this)
+                .roomModule(DataModule(this))
                 .build()
                 .inject(this)
     }

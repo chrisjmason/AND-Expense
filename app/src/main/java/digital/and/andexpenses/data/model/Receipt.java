@@ -2,17 +2,23 @@ package digital.and.andexpenses.data.model;
 
 import android.icu.text.SimpleDateFormat;
 
+import digital.and.andexpenses.data.ExpenseEntity;
+
 /**
  * Created by matashfaraz on 20/02/2018.
  */
 
 public class Receipt {
     String date;
-    Float price;
+    float price;
     public Receipt (String date, String price){
-
         this.date = date;
         this.price = Float.parseFloat(price);
+    }
+
+    public Receipt (String date, double price){
+        this.date = date;
+        this.price = (float)price;
     }
 
     public String getDate() {
