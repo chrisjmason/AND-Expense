@@ -8,6 +8,7 @@ import digital.and.andexpenses.data.ExpenseDAO
 import digital.and.andexpenses.data.ExpenseDatabase
 import digital.and.andexpenses.data.repo.AndExpenseRepository
 import digital.and.andexpenses.data.repo.AndExpenseRepositoryImpl
+import digital.and.andexpenses.utils.SchedulerProvider
 import javax.inject.Singleton
 
 /**
@@ -29,5 +30,5 @@ open class DataModule(private val application: Application){
 
     @Singleton
     @Provides
-    fun provideRepository(expenseDAO: ExpenseDAO): AndExpenseRepository = AndExpenseRepositoryImpl(expenseDAO)
+    fun provideRepository(expenseDAO: ExpenseDAO, schedulerProvider: SchedulerProvider): AndExpenseRepository = AndExpenseRepositoryImpl(expenseDAO, schedulerProvider)
 }

@@ -16,7 +16,8 @@ import javax.inject.Singleton
         HomeActivityModule::class,
         AndExpenseActivityModule::class,
         DataModule::class,
-        ViewExpenseActivityModule::class))
+        ViewExpenseActivityModule::class,
+        SchedulerModule::class))
 @Singleton
 interface AppComponent{
     fun inject(app: MyApplication)

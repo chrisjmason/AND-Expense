@@ -25,7 +25,6 @@ class ViewExpenseActivity: AppCompatActivity(), ViewExpenseContract.View {
     }
 
     override fun showExpenses(list: MutableList<ExpenseEntity>){
-        Log.d("showExpenses called", list.get(0).toString())
-        for(item in list) Log.d("item in database", item.toString())
+        //Here we populate list in adapter to show expenses.
     }
 }

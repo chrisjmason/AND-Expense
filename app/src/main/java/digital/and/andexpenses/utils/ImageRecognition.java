@@ -89,7 +89,7 @@ public class ImageRecognition {
             }
         }
 
-         return Single.just(new Receipt("12/04/18", "3.40"))
+         return Single.just(new Receipt(receiptDate, price))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

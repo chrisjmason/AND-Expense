@@ -3,8 +3,13 @@ package digital.and.andexpenses.data
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import digital.and.andexpenses.data.repo.AndExpenseRepository
 import digital.and.andexpenses.data.repo.AndExpenseRepositoryImpl
+import digital.and.andexpenses.helpers.TestSchedulerProvider
+import digital.and.andexpenses.utils.SchedulerProvider
+import io.reactivex.observers.TestObserver
+import io.reactivex.schedulers.TestScheduler
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -24,12 +29,12 @@ class AndExpenseRepoTest{
 
     @Before
     fun setUp(){
-        repository = AndExpenseRepositoryImpl(expenseDAO)
+        repository = AndExpenseRepositoryImpl(expenseDAO, TestSchedulerProvider())
     }
 
     @Test
     fun addExpenseCalled(){
-        var expense: ExpenseEntity = ExpenseEntity(2.30F, "12/05/2014", "dcsdcs")
+        val expense = ExpenseEntity(2.30F, "12/05/2014", "dcsdcs")
         repository.addExpense(expense)
         verify(expenseDAO).insertExpense(expense)
     }

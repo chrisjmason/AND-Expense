@@ -50,12 +50,11 @@ public class AndExpenseActivity extends AppCompatActivity implements AndExpenseC
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             String imagePath = FileUtil.getImagePath(imageFile);
-//            BitmapFactory.Options options = new BitmapFactory.Options();
-//            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-//            Bitmap imageBitmap = BitmapFactory.decodeFile(imagePath, options);
-
-            Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.print_payment_receipt);
-            Log.d("activity", "On activity result Has been called");
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            Bitmap imageBitmap = BitmapFactory.decodeFile(imagePath, options);
+//            Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.print_payment_receipt);
+//            Log.d("activity", "On activity result Has been called");
             presenter.storeExpense(imagePath, imageBitmap);
             onBackPressed();
         }
