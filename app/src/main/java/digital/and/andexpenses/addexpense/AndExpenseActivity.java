@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -63,7 +64,7 @@ public class AndExpenseActivity extends AppCompatActivity implements AndExpenseC
     @Override
     public void expenseStoredSuccessfully() {
         Toast.makeText(this, "Successfully added", Toast.LENGTH_LONG).show();
-
+//
     }
 
     @Override
