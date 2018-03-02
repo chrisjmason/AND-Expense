@@ -21,8 +21,8 @@ import digital.and.andexpenses.data.ExpenseEntity;
 
 public class ViewExpenseAdapter extends RecyclerView.Adapter<ViewExpenseAdapter.ViewHolder> {
 
-    List<ExpenseEntity> listOfExpenses;
-    Context context;
+    private List<ExpenseEntity> listOfExpenses;
+    private Context context;
 
     @Override
     public ViewExpenseAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -35,11 +35,11 @@ public class ViewExpenseAdapter extends RecyclerView.Adapter<ViewExpenseAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         ExpenseEntity currentExpense = listOfExpenses.get(position);
         CardView cardView = holder.cardView;
-        TextView date = (TextView)cardView.findViewById(R.id.textDate);
-        TextView price = (TextView)cardView.findViewById(R.id.textPrice);
-        ImageView receiptImage = (ImageView)cardView.findViewById(R.id.imageReceipt);
+        TextView date = cardView.findViewById(R.id.textDate);
+        TextView price = cardView.findViewById(R.id.textPrice);
+        ImageView receiptImage = cardView.findViewById(R.id.imageReceipt);
         date.setText(currentExpense.date);
-        price.setText(String.valueOf(currentExpense.total));
+        price.setText("£"+String.valueOf(currentExpense.total));
         Glide.with(context).load(currentExpense.pictureLocation).into(receiptImage);
 
     }
@@ -67,8 +67,6 @@ public class ViewExpenseAdapter extends RecyclerView.Adapter<ViewExpenseAdapter.
             super(cardview);
             this.cardView = cardview;
         }
-
-
 
     }
 }

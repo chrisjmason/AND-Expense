@@ -17,10 +17,6 @@ import digital.and.andexpenses.viewexpenses.ViewExpenseActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private Button addExpenseButton;
-    private Button viewExpensesButton;
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         AndroidInjection.inject(this);
@@ -29,23 +25,21 @@ public class HomeActivity extends AppCompatActivity {
         setUpButtons();
     }
 
-    public void setUpButtons(){
-        addExpenseButton = findViewById(R.id.btn_add);
+    private void setUpButtons(){
+        Button addExpenseButton = findViewById(R.id.btn_add);
         addExpenseButton.setOnClickListener(v -> addExpense());
 
-        viewExpensesButton = findViewById(R.id.btn_expense);
+        Button viewExpensesButton = findViewById(R.id.btn_expense);
         viewExpensesButton.setOnClickListener(v -> goToViewExpenses());
     }
 
-    public void addExpense() {
+    private void addExpense() {
         Intent addExpense = new Intent(this, AndExpenseActivity.class);
         startActivity(addExpense);
     }
 
-    public void goToViewExpenses(){
+    private void goToViewExpenses(){
         Intent viewExpensesIntent = new Intent(this, ViewExpenseActivity.class);
         startActivity(viewExpensesIntent);
     }
-
-
 }
