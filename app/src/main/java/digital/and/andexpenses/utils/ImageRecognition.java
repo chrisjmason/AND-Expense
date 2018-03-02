@@ -42,7 +42,7 @@ public class ImageRecognition {
     ArrayList<Double> listOfPrices = new ArrayList<>();
     Double price = 0.0;
     Date date;
-    String receiptDate = "";
+    String receiptDate = null;
     boolean dateIsFound = false;
     boolean priceIsFound = false;
 
@@ -106,8 +106,13 @@ public class ImageRecognition {
     }
 
     public Double getReceiptPrice(ArrayList<Double> prices){
-        priceIsFound = true;
-        return Collections.max(listOfPrices);
+        if (prices.size() > 0){
+            priceIsFound = true;
+            return Collections.max(listOfPrices);
+        }
+        else {
+            return 0.0;
+        }
 
     }
 
