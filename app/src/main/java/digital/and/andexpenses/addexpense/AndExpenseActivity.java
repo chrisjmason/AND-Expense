@@ -57,9 +57,11 @@ public class AndExpenseActivity extends AppCompatActivity implements AndExpenseC
 //            Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.print_payment_receipt);
 //            Log.d("activity", "On activity result Has been called");
             presenter.storeExpense(imagePath, imageBitmap);
-            onBackPressed();
+//            onBackPressed();
+            finish();
         }
     }
+
 
     @Override
     public void expenseStoredSuccessfully() {
