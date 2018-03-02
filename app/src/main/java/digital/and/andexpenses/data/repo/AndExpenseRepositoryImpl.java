@@ -41,6 +41,14 @@ public class AndExpenseRepositoryImpl implements AndExpenseRepository {
     }
 
     @Override
+    public Completable removeExpense(ExpenseEntity expenseEntity) {
+        return Completable.fromAction(() -> expenseDAO.removeExpense(expenseEntity))
+                .subscribeOn(schedulerProvider.getBackgroundScheduler())
+                .observeOn(schedulerProvider.getMainScheduler());
+    }
+
+
+    @Override
     public Single<List<ExpenseEntity>> getExpenses() {
         return expenseDAO.getExpenses()
                 .subscribeOn(schedulerProvider.getBackgroundScheduler())

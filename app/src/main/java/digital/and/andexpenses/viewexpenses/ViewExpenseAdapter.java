@@ -4,11 +4,16 @@ import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -23,6 +28,12 @@ public class ViewExpenseAdapter extends RecyclerView.Adapter<ViewExpenseAdapter.
 
     private List<ExpenseEntity> listOfExpenses;
     private Context context;
+    private ViewExpenseContract.Presenter presenter;
+
+    public ViewExpenseAdapter (ViewExpenseContract.Presenter presenter){
+
+        this.presenter = presenter;
+    }
 
     @Override
     public ViewExpenseAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -41,7 +52,34 @@ public class ViewExpenseAdapter extends RecyclerView.Adapter<ViewExpenseAdapter.
         date.setText(currentExpense.date);
         price.setText("£"+String.valueOf(currentExpense.total));
         Glide.with(context).load(currentExpense.pictureLocation).into(receiptImage);
+        removeReceipt(position, cardView);
 
+    }
+
+    public void removeReceipt(int position, CardView cardView ) {
+
+        ImageButton imageButton = cardView.findViewById(R.id.imageButton);
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                ExpenseEntity currentExpense = listOfExpenses.get(position);
+                presenter.removeExpense(ViewExpenseAdapter.this, currentExpense);
+
+
+
+            }
+
+        });
+
+    }
+
+    public void showMessageRemoveReceipt(ExpenseEntity currentExpense) {
+        listOfExpenses.remove(currentExpense);
+        notifyDataSetChanged();
+        Toast.makeText(context,
+                "The receipt is removed!", Toast.LENGTH_SHORT).show();
     }
 
     public void setList(List<ExpenseEntity> listOfExpense) {
@@ -56,6 +94,12 @@ public class ViewExpenseAdapter extends RecyclerView.Adapter<ViewExpenseAdapter.
             return 0;
         }
         return listOfExpenses.size();
+    }
+
+    @NotNull
+    public void showFailMessageRemoveReceipt() {
+        Toast.makeText(context,
+                "The receipt was not removed!", Toast.LENGTH_SHORT).show();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

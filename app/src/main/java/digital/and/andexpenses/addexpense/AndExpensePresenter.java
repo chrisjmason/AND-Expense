@@ -40,6 +40,7 @@ public class AndExpensePresenter extends BasePresenter<AndExpenseContract.View> 
 
     @Override
     public void storeExpense(String imgPath, Bitmap image) {
+
         imageRecognition.processReceipt(image)
                 .flatMapCompletable(receipt -> {
                     if (receipt.getDate()==null || receipt.getPrice()==0.0){
@@ -54,4 +55,5 @@ public class AndExpensePresenter extends BasePresenter<AndExpenseContract.View> 
                             getView().expenseStorageFailure();
                         });
     }
+
 }

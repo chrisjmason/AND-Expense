@@ -1,6 +1,7 @@
 package digital.and.andexpenses.data;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
@@ -19,4 +20,7 @@ public interface ExpenseDAO {
 
     @Query("SELECT * FROM Expenses")
     Single<List<ExpenseEntity>> getExpenses();
+
+    @Delete
+    void removeExpense(ExpenseEntity expenseEntity);
 }
